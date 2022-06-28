@@ -1,0 +1,14 @@
+#!/bin/sh
+cd "${0%/*}" || exit                                # Run from this directory
+. ../functions
+#------------------------------------------------------------------------------
+
+setImage "../../../of2206.sif"
+
+restore0Dir
+
+singularityRun blockMesh
+
+singularityRun $(getApplication)
+
+# -----------------------------------------------------------------------------
