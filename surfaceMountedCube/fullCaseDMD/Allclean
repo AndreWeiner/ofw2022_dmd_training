@@ -1,11 +1,10 @@
 #!/bin/sh
 cd "${0%/*}" || exit                                # Run from this directory
+. ../functions
 #------------------------------------------------------------------------------
 
-(cd initChannel && ./Allclean)
+cleanCase0
 
-(cd fullCase && ./Allclean)
+rm -rf constant/coarseMesh system/coarseMesh
 
-(cd fullCaseDMD && ./Allclean)
-
-#------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------

@@ -1,6 +1,7 @@
 # OpenFOAM
 run
 *.sif
+syncrun
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

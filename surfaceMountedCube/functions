@@ -125,7 +125,7 @@ singularityRun()
     else
         if imageFound; then
             echo "Running $appRun on $PWD with image $image"
-            singularity exec $image bash -c "source $bashrc && $appRun $appArgs" "$@" > $logFile 2>&1
+            singularity exec $image bash -c "source $bashrc && $appRun $appArgs $*"  > $logFile 2>&1
         else
             echo "Could not find Singularity image $image"
         fi
@@ -176,8 +176,7 @@ singularityRunParallel()
     else
         if imageFound; then
             echo "Running $appRun ($nProcs processes) on $PWD with image $image"
-            echo $appArgs
-            mpirun -np $nProcs singularity exec $image bash -c "source $bashrc && $appRun $appArgs" "$@" </dev/null > $logFile 2>&1
+            mpirun -np $nProcs singularity exec $image bash -c "source $bashrc && $appRun $appArgs $*" </dev/null > $logFile 2>&1
         else
                 echo "Could not find Singularity image $image"
         fi

@@ -9,4 +9,7 @@ cd "${0%/*}" || exit                                # Run from this directory
 # Run the main case
 (cd fullCase && ./Allrun)
 
+# Run the main case with DMD
+(cd fullCaseDMD && ./Allrun)
+
 # ------------------------------------------------------------------------------

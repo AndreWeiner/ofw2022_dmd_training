@@ -1,0 +1,37 @@
+#!/bin/sh
+cd "${0%/*}" || exit                                # Run from this directory
+. ${WM_PROJECT_DIR:?}/bin/tools/RunFunctions        # Tutorial run functions
+#------------------------------------------------------------------------------
+
+# create and distribute coarse mesh
+runApplication -s coarseMesh blockMesh -dict system/blockMeshDict.coarse
+runApplication snappyHexMesh -overwrite
+mkdir -p constant/coarseMesh system/coarseMesh
+mv -f constant/polyMesh constant/coarseMesh
+cp -f system/decomposeParDict system/coarseMesh/
+cp -f system/fvSolution system/coarseMesh/
+cp -f system/fvSchemes system/coarseMesh/
+
+runApplication -s coarseMesh \
+    decomposePar -region coarseMesh
+runParallel -s coarseMesh \
+    renumberMesh -overwrite -region coarseMesh
+
+# copy latest timestep from previous run
+prevCase=../fullCase
+[ -d "$prevCase" ] || {
+    echo "Unable to locate precursor simulation - exiting"
+    exit 1
+}
+
+latestTime=$(foamListTimes -case $prevCase -processor -latestTime)
+for proc in $(ls -d $prevCase/proc*); do
+	cp -r $proc/$latestTime $(basename $proc)/
+    cp -r $proc/constant $(basename $proc)/
+done
+cp -rf $prevCase/constant/boundaryData constant/
+
+# run solver
+runParallel $(getApplication)
+
+# -----------------------------------------------------------------------------
