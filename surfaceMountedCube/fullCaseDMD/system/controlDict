@@ -72,7 +72,8 @@ functions
     }
 
     // DMD of cube surface pressure
-    stdmd_cube
+    // commented due to crash
+/*    stdmd_cube
     {
         type            DMD;
         libs            (fieldFunctionObjects);
@@ -92,7 +93,7 @@ functions
         writeControl    onEnd;
         writeInterval   1;
     }
-
+*/
     // DMD of coarse mesh region
     stdmd_coarse
     {

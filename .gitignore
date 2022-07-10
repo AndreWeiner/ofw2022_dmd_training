@@ -2,6 +2,7 @@
 run
 *.sif
 syncrun
+output
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
